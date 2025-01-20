@@ -1,4 +1,5 @@
 import DynamicHead from '@/components/DynamicHead';
+import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Navbar />
       <DynamicHead title='Time Sheet' desc='Time Sheet to know your time.' />
       <Component {...pageProps} />
+      <Footer />
     </div>
   );
 }
