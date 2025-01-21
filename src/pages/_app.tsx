@@ -1,5 +1,6 @@
 import DynamicHead from '@/components/DynamicHead';
 import Footer from '@/components/Footer';
+import Loader from '@/components/Loader';
 import Navbar from '@/components/Navbar';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { persistor, store } from '@/redux/store';
@@ -28,10 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
       disableTransitionOnChange
     >
       <Provider store={store}>
-        <PersistGate
-          persistor={persistor}
-          loading={<h1>Loading...</h1>}
-        ></PersistGate>
+        <PersistGate persistor={persistor} loading={<Loader />}></PersistGate>
         <div className={`${geistSans.variable} ${geistMono.variable}`}>
           <Navbar />
           <DynamicHead title={appName} desc='Time Sheet to know your time.' />

@@ -25,7 +25,8 @@ const taskReducer = createSlice({
       state.push(action.payload);
     },
     updateTask(state, action: PayloadAction<{ key: number; value: Task }>) {
-      state[action.payload.key] = action.payload.value;
+      const index = state.findIndex(({ id }) => id === action.payload.key);
+      state[index] = action.payload.value;
     },
   },
 });

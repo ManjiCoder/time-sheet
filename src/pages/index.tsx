@@ -48,12 +48,11 @@ export default function Home() {
       category: category ?? 'Misc',
       isActive: !isActive,
       endTime: isActive ? new Date().toISOString() : null,
-      id: tasks.length + 1,
+      id: isActive ? taskId ?? tasks.length + 1 : tasks.length + 1,
     };
-    if (isActive) {
-      // @ts-ignore
-      dispatch(updateTask({ key: taskId, value: payload }));
+    if (isActive && taskId) {
       dispatch(resetActiveTask());
+      dispatch(updateTask({ key: taskId, value: payload }));
     } else {
       dispatch(
         setActiveTask({
@@ -72,12 +71,12 @@ export default function Home() {
     <main className='flex min-h-96 justify-center items-center gap-5'>
       <Drawer>
         <DrawerTrigger>
-          <span
-            // variant='outline'
+          <Button
+            variant='outline'
             className='w-40 py-6 font-bold text-lg  border'
           >
-            {categoryId || 'Category'}
-          </span>
+            {category || 'Category'}
+          </Button>
         </DrawerTrigger>
         <DrawerContent>
           <div className='mx-auto h-[80vh] w-full max-w-sm'>
