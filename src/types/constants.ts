@@ -1,1 +1,1 @@
-export const appName = 'Time Sheet';
+export const appName = 'Time Flow';

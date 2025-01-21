@@ -1,10 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import { appName } from '@/types/constants';
+import { ModeToggle } from './ToggleThemeBtn';
 
 export default function Navbar() {
   return (
@@ -14,17 +9,13 @@ export default function Navbar() {
 
       {/* User Ac */}
 
-      {/* <div className='relative justify-self-end'> */}
-      <Popover>
-        <PopoverTrigger>
-          <Avatar className='justify-self-end'>
-            <AvatarImage src='https://github.com/shadcn.png' />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-        </PopoverTrigger>
-        <PopoverContent>logout</PopoverContent>
-      </Popover>
-      {/* </div> */}
+      <div className='relative justify-self-end'>
+        {/* <Popover>
+          <PopoverTrigger className='justify-self-end'>open</PopoverTrigger>
+          <PopoverContent className='right-4 relative w-32'>logout</PopoverContent>
+        </Popover> */}
+        <ModeToggle />
+      </div>
     </header>
   );
 }
