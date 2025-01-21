@@ -1,8 +1,8 @@
 import DynamicHead from '@/components/DynamicHead';
-import Footer from '@/components/Footer';
-import Loader from '@/components/Loader';
-import Navbar from '@/components/Navbar';
-import { ThemeProvider } from '@/components/ThemeProvider';
+import Footer from '@/components/layout/Footer';
+import Loader from '@/components/layout/Loader';
+import Navbar from '@/components/layout/Navbar';
+import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { persistor, store } from '@/redux/store';
 import '@/styles/globals.css';
 import { appName } from '@/types/constants';

@@ -1,5 +1,5 @@
 import { appName } from '@/types/constants';
-import { ModeToggle } from './ToggleThemeBtn';
+import { ModeToggle } from '../theme/ToggleThemeBtn';
 
 export default function Navbar() {
   return (
