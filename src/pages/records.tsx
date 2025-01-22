@@ -43,6 +43,7 @@ import {
 } from '@/components/ui/table';
 import { Task } from '@/redux/features/task/taskReducer';
 import { useAppSelector } from '@/redux/hooks';
+import { downloadCSV, jsonToCsv } from '@/utils/jsonToCsv';
 import { format } from 'date-fns';
 
 export const columns: ColumnDef<Task>[] = [
@@ -198,7 +199,14 @@ export default function Records() {
   });
 
   const handleBackup = () => {
-    console.log(tasks);
+    const csvData = jsonToCsv(tasks, {
+      id: 'ID',
+      isActive: 'Status',
+      category: 'Task',
+      startTime: 'Start Time',
+      endTime: 'End Time',
+    });
+    downloadCSV(csvData);
   };
 
   return (
