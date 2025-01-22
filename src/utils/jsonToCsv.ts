@@ -1,4 +1,5 @@
 import { Task } from '@/redux/features/task/taskReducer';
+import { appName } from '@/types/constants';
 
 export const jsonToCsv = (
   arr: Task[],
@@ -14,9 +15,11 @@ export const jsonToCsv = (
   let csvData = csvTitle + '\n';
   arr.forEach((task) => {
     let csvDesc = '';
-    for (const key in task) {
+    Object.keys(orderBy).forEach((key) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       csvDesc += `${task[key]},`;
-    }
+    });
     csvData += `${csvDesc}\n`;
     csvDesc = '';
   });
@@ -25,13 +28,14 @@ export const jsonToCsv = (
 
 export const downloadCSV = (csvStr: string) => {
   const blob = new Blob([csvStr], { type: 'text/csv' });
-  const url = URL.createObjectURL(blob);
+  const url = URL.createObjectURL(blob); // created
 
   const a = document.createElement('a');
   a.href = url;
-  document.body.appendChild(a);
+  a.download = `${appName}.csv`;
+  document.body.appendChild(a); // added
   a.click();
 
-  a.removeChild(a);
-  URL.revokeObjectURL(url);
+  document.body.removeChild(a); // remove
+  URL.revokeObjectURL(url); // remove
 };

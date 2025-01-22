@@ -206,6 +206,7 @@ export default function Records() {
       startTime: 'Start Time',
       endTime: 'End Time',
     });
+    // console.log(csvData)
     downloadCSV(csvData);
   };
 
