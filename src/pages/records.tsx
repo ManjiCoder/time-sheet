@@ -12,7 +12,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
+import {
+  ArrowUpDown,
+  ChevronDown,
+  LucideDatabaseBackup,
+  MoreHorizontal,
+} from 'lucide-react';
 import * as React from 'react';
 
 import ClientWrapper from '@/components/ClientWrapper';
@@ -42,7 +47,7 @@ import { format } from 'date-fns';
 
 export const columns: ColumnDef<Task>[] = [
   {
-    id: 'id',
+    id: 'select',
     header: ({ table }) => (
       <Checkbox
         checked={
@@ -62,6 +67,11 @@ export const columns: ColumnDef<Task>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+  },
+  {
+    accessorKey: 'id',
+    header: 'ID',
+    cell: ({ row }) => <div className='capitalize'>{row.getValue('id')}</div>,
   },
   {
     accessorKey: 'isActive',
@@ -118,7 +128,11 @@ export const columns: ColumnDef<Task>[] = [
       );
     },
     cell: ({ row }) => (
-      <div>{format(row.getValue('endTime'), 'dd MMM yy, hh:mm a')}</div>
+      <div>
+        {row.getValue('endTime')
+          ? format(row.getValue('endTime'), 'dd MMM yy, hh:mm a')
+          : '-'}
+      </div>
     ),
   },
 
@@ -155,7 +169,7 @@ export const columns: ColumnDef<Task>[] = [
 
 export default function Records() {
   const tasks = useAppSelector((state) => state.task);
-  // console.log(tasks);
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -183,10 +197,14 @@ export default function Records() {
     },
   });
 
+  const handleBackup = () => {
+    console.log(tasks);
+  };
+
   return (
     <ClientWrapper>
-      <main className='w-full'>
-        <div className='flex items-center py-4'>
+      <main className='wrapper'>
+        <div className='flex items-center py-4 gap-x-3'>
           <Input
             placeholder='Filter emails...'
             value={
@@ -223,6 +241,11 @@ export default function Records() {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <Button variant='default' onClick={handleBackup}>
+            <LucideDatabaseBackup />
+            Download
+          </Button>
         </div>
         <div className='rounded-md border'>
           <Table>

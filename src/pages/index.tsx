@@ -70,7 +70,7 @@ export default function Home() {
 
   return (
     <ClientWrapper>
-      <main className='flex min-h-96 justify-center items-center gap-5'>
+      <main className='wrapper flex min-h-96 justify-center items-center gap-5'>
         <Drawer>
           <DrawerTrigger>
             <Button
