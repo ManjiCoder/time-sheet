@@ -44,7 +44,7 @@ import {
 import { Task } from '@/redux/features/task/taskReducer';
 import { useAppSelector } from '@/redux/hooks';
 import { downloadCSV, jsonToCsv } from '@/utils/jsonToCsv';
-import { format } from 'date-fns';
+import { differenceInDays, differenceInHours, format } from 'date-fns';
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -199,14 +199,44 @@ export default function Records() {
   });
 
   const handleBackup = () => {
-    const csvData = jsonToCsv(tasks, {
+    const updatedTasks = tasks.map((task) => {
+      let duration = '-';
+      if (task.endTime) {
+        const days = differenceInDays(task.startTime, task.endTime);
+        const hrs = differenceInHours(task.startTime, task.endTime);
+        const mins = differenceInHours(task.startTime, task.endTime);
+        if (days > 0) {
+          duration += `${days.toString().padStart(2, '0')}:`;
+        }
+        if (hrs > 0) {
+          duration += `${hrs.toString().padStart(2, '0')}:`;
+        }
+        if (mins > 0) {
+          duration += mins.toString().padStart(2, '0');
+        }
+      }
+
+      return {
+        ...task,
+        duration,
+        isActive: !task.isActive ? 'Completed' : 'Not Completed',
+        startTime: format(task.startTime, 'dd MMM yy, hh:mm:a'),
+        endTime: task.endTime
+          ? format(task.endTime, 'dd MMM yy, hh:mm:a')
+          : '-',
+      };
+    });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const csvData = jsonToCsv(updatedTasks, {
       id: 'ID',
       isActive: 'Status',
       category: 'Task',
+      duration: 'Duration',
       startTime: 'Start Time',
       endTime: 'End Time',
     });
-    // console.log(csvData)
+    // console.log(csvData);
     downloadCSV(csvData);
   };
 

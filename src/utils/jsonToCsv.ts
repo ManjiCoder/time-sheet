@@ -7,6 +7,7 @@ export const jsonToCsv = (
     id: string;
     isActive: string;
     category: string;
+    duration: string;
     startTime: string;
     endTime: string;
   }
