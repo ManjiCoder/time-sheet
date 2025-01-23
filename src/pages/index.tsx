@@ -49,7 +49,9 @@ export default function Home() {
       category: category ?? 'Misc',
       isActive: !isActive,
       endTime: isActive ? new Date().toISOString() : null,
-      id: isActive ? taskId ?? tasks.length + 1 : tasks.length + 1,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      id: taskId ?? tasks.at(-1)?.id + 1 ?? 1,
     };
     if (isActive && taskId) {
       dispatch(resetActiveTask());
