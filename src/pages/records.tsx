@@ -15,6 +15,7 @@ import {
 import {
   ArrowUpDown,
   ChevronDown,
+  Edit,
   LucideDatabaseBackup,
   MoreHorizontal,
   TrashIcon,
@@ -147,6 +148,9 @@ export const columns: ColumnDef<Task>[] = [
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const dispatch = useAppDispatch();
       const removeTask = () => {
+        dispatch(deleteTask({ key: row.original.id }));
+      };
+      const editTask = () => {
         dispatch(deleteTask({ key: row.index }));
       };
       return (
@@ -159,13 +163,15 @@ export const columns: ColumnDef<Task>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
+            {/* <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.category)}
             >
               Copy payment ID
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Edit /> Edit
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={removeTask}>
               <TrashIcon /> Remove
             </DropdownMenuItem>

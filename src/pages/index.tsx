@@ -47,16 +47,15 @@ export default function Home() {
     const payload: Task = {
       startTime: new Date().toISOString(),
       category: category ?? 'Misc',
-      isActive: !isActive,
+      isActive,
       endTime: isActive ? new Date().toISOString() : null,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      id: taskId ?? tasks.at(-1)?.id + 1 ?? 1,
+      id: taskId ?? tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
     };
     if (isActive && taskId) {
       dispatch(resetActiveTask());
       dispatch(updateTask({ key: taskId, value: payload }));
     } else {
+      dispatch(addTask(payload));
       dispatch(
         setActiveTask({
           taskId: payload.id,
@@ -64,7 +63,6 @@ export default function Home() {
           categoryId: category,
         })
       );
-      dispatch(addTask(payload));
     }
 
     // console.table(payload);
