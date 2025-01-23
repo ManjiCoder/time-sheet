@@ -44,7 +44,11 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { resetActiveTask } from '@/redux/features/task/activeTaskReducer';
-import { deleteTask, Task } from '@/redux/features/task/taskReducer';
+import {
+  deleteTask,
+  Task,
+  updateTask,
+} from '@/redux/features/task/taskReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { jsonToCsv } from '@/utils/jsonToCsv';
 import { differenceInDays, differenceInHours, format } from 'date-fns';
@@ -74,12 +78,32 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     accessorKey: 'id',
-    header: 'ID',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          ID
+          <ArrowUpDown />
+        </Button>
+      );
+    },
     cell: ({ row }) => <div className='capitalize'>{row.getValue('id')}</div>,
   },
   {
     accessorKey: 'isActive',
-    header: 'Status',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Status
+          <ArrowUpDown />
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <div className='capitalize'>
         {row.getValue('isActive') ? 'Not Completed' : 'Compeleted'}
@@ -139,13 +163,27 @@ export const columns: ColumnDef<Task>[] = [
       </div>
     ),
   },
+  {
+    accessorKey: 'duration',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Duration
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{row.getValue('duration')}</div>,
+  },
 
   {
     id: 'actions',
+    header: 'Action',
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original;
-
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const dispatch = useAppDispatch();
       const removeTask = () => {
@@ -153,7 +191,8 @@ export const columns: ColumnDef<Task>[] = [
         dispatch(resetActiveTask());
       };
       const editTask = () => {
-        dispatch(deleteTask({ key: row.index }));
+        dispatch(updateTask({ key: row.original.id, value: row.original }));
+        dispatch(resetActiveTask());
       };
       return (
         <DropdownMenu>
@@ -171,7 +210,7 @@ export const columns: ColumnDef<Task>[] = [
               Copy payment ID
             </DropdownMenuItem> */}
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={editTask}>
               <Edit /> Edit
             </DropdownMenuItem>
             <DropdownMenuItem onClick={removeTask}>

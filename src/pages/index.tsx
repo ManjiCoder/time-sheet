@@ -48,6 +48,7 @@ export default function Home() {
       startTime: new Date().toISOString(),
       category: category ?? 'Misc',
       isActive: false,
+      duration: isActive ? '10min' : '-',
       endTime: isActive ? new Date().toISOString() : null,
       id: taskId ?? tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
     };

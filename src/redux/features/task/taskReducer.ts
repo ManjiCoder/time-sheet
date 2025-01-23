@@ -5,6 +5,7 @@ export interface Task {
   startTime: string;
   category: string;
   isActive: boolean;
+  duration: string;
   endTime: string | null;
 }
 const initialState: Task[] = [
