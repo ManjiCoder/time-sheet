@@ -43,6 +43,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { resetActiveTask } from '@/redux/features/task/activeTaskReducer';
 import { deleteTask, Task } from '@/redux/features/task/taskReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { jsonToCsv } from '@/utils/jsonToCsv';
@@ -149,6 +150,7 @@ export const columns: ColumnDef<Task>[] = [
       const dispatch = useAppDispatch();
       const removeTask = () => {
         dispatch(deleteTask({ key: row.original.id }));
+        dispatch(resetActiveTask());
       };
       const editTask = () => {
         dispatch(deleteTask({ key: row.index }));

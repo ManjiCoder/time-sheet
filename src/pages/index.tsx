@@ -47,7 +47,7 @@ export default function Home() {
     const payload: Task = {
       startTime: new Date().toISOString(),
       category: category ?? 'Misc',
-      isActive,
+      isActive: false,
       endTime: isActive ? new Date().toISOString() : null,
       id: taskId ?? tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
     };
@@ -55,7 +55,7 @@ export default function Home() {
       dispatch(resetActiveTask());
       dispatch(updateTask({ key: taskId, value: payload }));
     } else {
-      dispatch(addTask(payload));
+      dispatch(addTask({ ...payload, isActive: true }));
       dispatch(
         setActiveTask({
           taskId: payload.id,

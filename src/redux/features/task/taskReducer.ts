@@ -26,7 +26,7 @@ const taskReducer = createSlice({
     },
     updateTask(state, action: PayloadAction<{ key: number; value: Task }>) {
       const index = state.findIndex(({ id }) => id === action.payload.key);
-      state[index] = { ...state[index], endTime: action.payload.value.endTime };
+      state[index] = { ...state[index], ...action.payload.value };
     },
     deleteTask(state, action: PayloadAction<{ key: number }>) {
       return state.filter((task) => task.id !== action.payload.key);
