@@ -3,20 +3,21 @@
 import {
   ColumnDef,
   ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
+  VisibilityState,
 } from '@tanstack/react-table';
 import {
   ArrowUpDown,
   ChevronDown,
   LucideDatabaseBackup,
   MoreHorizontal,
+  TrashIcon,
 } from 'lucide-react';
 import * as React from 'react';
 
@@ -41,9 +42,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Task } from '@/redux/features/task/taskReducer';
-import { useAppSelector } from '@/redux/hooks';
-import { downloadCSV, jsonToCsv } from '@/utils/jsonToCsv';
+import { deleteTask, Task } from '@/redux/features/task/taskReducer';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { jsonToCsv } from '@/utils/jsonToCsv';
 import { differenceInDays, differenceInHours, format } from 'date-fns';
 
 export const columns: ColumnDef<Task>[] = [
@@ -143,6 +144,11 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const payment = row.original;
 
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const dispatch = useAppDispatch();
+      const removeTask = () => {
+        dispatch(deleteTask({ key: row.index }));
+      };
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -160,7 +166,9 @@ export const columns: ColumnDef<Task>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem onClick={removeTask}>
+              <TrashIcon /> Remove
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -220,10 +228,8 @@ export default function Records() {
         ...task,
         duration,
         isActive: !task.isActive ? 'Completed' : 'Not Completed',
-        startTime: format(task.startTime, 'dd MMM yy, hh:mm:a'),
-        endTime: task.endTime
-          ? format(task.endTime, 'dd MMM yy, hh:mm:a')
-          : '-',
+        startTime: format(task.startTime, 'dd MMM yy hh:mm:a'),
+        endTime: task.endTime ? format(task.endTime, 'dd MMM yy hh:mm:a') : '-',
       };
     });
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -236,8 +242,8 @@ export default function Records() {
       startTime: 'Start Time',
       endTime: 'End Time',
     });
-    // console.log(csvData);
-    downloadCSV(csvData);
+    console.log(csvData);
+    // downloadCSV(csvData);
   };
 
   return (
