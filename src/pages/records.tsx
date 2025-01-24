@@ -1,4 +1,14 @@
 'use client';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 import {
   ColumnDef,
@@ -210,11 +220,79 @@ export const columns: ColumnDef<Task>[] = [
               Copy payment ID
             </DropdownMenuItem> */}
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={editTask}>
-              <Edit /> Edit
+            <DropdownMenuItem asChild>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant='outline'
+                    className='flex space-x-2 w-full justify-start'
+                  >
+                    <Edit /> Edit
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Are you absolutely sure?</DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently update
+                      your account and update your data from our servers.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter className='sm:justify-start'>
+                    <DialogClose asChild>
+                      <Button
+                        type='button'
+                        variant='secondary'
+                        onClick={editTask}
+                      >
+                        Confirm
+                      </Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                      <Button type='button' variant='ghost'>
+                        Cancel
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={removeTask}>
-              <TrashIcon /> Remove
+            <DropdownMenuItem asChild>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant='outline'
+                    className='flex space-x-2 w-full justify-start'
+                  >
+                    <TrashIcon /> Remove
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Are you absolutely sure?</DialogTitle>
+                    <DialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      your account and remove your data from our servers.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter className='sm:justify-start'>
+                    <DialogClose asChild>
+                      <Button
+                        type='button'
+                        variant='destructive'
+                        onClick={removeTask}
+                      >
+                        Confirm
+                      </Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                      <Button type='button' variant='secondary'>
+                        Cancel
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
