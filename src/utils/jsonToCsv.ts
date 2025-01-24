@@ -47,7 +47,7 @@ export const downloadCSV = (csvStr: string) => {
 };
 
 export const calculateDuration = (startTime: string, endTime: string) => {
-  let duration = '0';
+  let duration = '';
   const days = Math.abs(differenceInDays(startTime, endTime));
   const hrs = Math.abs(differenceInHours(startTime, endTime));
   const mins = Math.abs(differenceInMinutes(startTime, endTime));
@@ -65,5 +65,5 @@ export const calculateDuration = (startTime: string, endTime: string) => {
     }`;
   }
 
-  return duration;
+  return duration || '0min';
 };

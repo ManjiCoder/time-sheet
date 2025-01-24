@@ -56,7 +56,11 @@ export default function Home() {
       isActive: true,
       duration: '-',
       endTime: isActive ? new Date().toISOString() : null,
-      id: isActive && tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
+      id: currentTask
+        ? tasks[currentTask].id
+        : tasks.length > 0
+        ? tasks[tasks.length - 1].id + 1
+        : 1,
     };
     if (isActive && taskId) {
       payload.duration = calculateDuration(
