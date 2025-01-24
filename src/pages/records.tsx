@@ -1,14 +1,9 @@
 'use client';
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
 import {
   ColumnDef,
@@ -36,12 +31,19 @@ import ClientWrapper from '@/components/ClientWrapper';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
@@ -205,98 +207,187 @@ export const columns: ColumnDef<Task>[] = [
         dispatch(resetActiveTask());
       };
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+        <Popover>
+          <PopoverTrigger>
             <Button variant='ghost' className='h-8 w-8 p-0'>
               <span className='sr-only'>Open menu</span>
               <MoreHorizontal />
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            {/* <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.category)}
-            >
-              Copy payment ID
-            </DropdownMenuItem> */}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    variant='outline'
-                    className='flex space-x-2 w-full justify-start'
-                  >
-                    <Edit /> Edit
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                      This action cannot be undone. This will permanently update
-                      your account and update your data from our servers.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter className='sm:justify-start'>
-                    <DialogClose asChild>
-                      <Button
-                        type='button'
-                        variant='secondary'
-                        onClick={editTask}
-                      >
-                        Confirm
-                      </Button>
-                    </DialogClose>
-                    <DialogClose asChild>
-                      <Button type='button' variant='ghost'>
-                        Cancel
-                      </Button>
-                    </DialogClose>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    variant='outline'
-                    className='flex space-x-2 w-full justify-start'
-                  >
-                    <TrashIcon /> Remove
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your account and remove your data from our servers.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter className='sm:justify-start'>
-                    <DialogClose asChild>
-                      <Button
-                        type='button'
-                        variant='destructive'
-                        onClick={removeTask}
-                      >
-                        Confirm
-                      </Button>
-                    </DialogClose>
-                    <DialogClose asChild>
-                      <Button type='button' variant='secondary'>
-                        Cancel
-                      </Button>
-                    </DialogClose>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          </PopoverTrigger>
+          <PopoverContent className='right-5 relative w-40'>
+            <div className='mb-3 border-b'>Actions</div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  variant='outline'
+                  className='flex space-x-2 w-full justify-start'
+                >
+                  <Edit /> Edit
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you absolutely sure?</DialogTitle>
+                  <DialogDescription>
+                    This action cannot be undone. This will permanently update
+                    your account and update your data from our servers.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className='sm:justify-start gap-y-3'>
+                  <DialogClose asChild>
+                    <Button
+                      type='button'
+                      variant='secondary'
+                      onClick={editTask}
+                    >
+                      Confirm
+                    </Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button type='button' variant='ghost'>
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  variant='outline'
+                  className='flex space-x-2 w-full justify-start'
+                >
+                  <TrashIcon /> Remove
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you absolutely sure?</DialogTitle>
+                  <DialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your account and remove your data from our servers.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className='sm:justify-start gap-y-3'>
+                  <DialogClose asChild>
+                    <Button
+                      type='button'
+                      variant='destructive'
+                      onClick={removeTask}
+                    >
+                      Confirm
+                    </Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button type='button' variant='secondary'>
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </PopoverContent>
+        </Popover>
       );
+      // return (
+      //   <DropdownMenu>
+      //     <DropdownMenuTrigger asChild>
+      //       <Button variant='ghost' className='h-8 w-8 p-0'>
+      //         <span className='sr-only'>Open menu</span>
+      //         <MoreHorizontal />
+      //       </Button>
+      //     </DropdownMenuTrigger>
+      //     <DropdownMenuContent align='end'>
+      //       <DropdownMenuLabel>Actions</DropdownMenuLabel>
+      //       {/* <DropdownMenuItem
+      //         onClick={() => navigator.clipboard.writeText(payment.category)}
+      //       >
+      //         Copy payment ID
+      //       </DropdownMenuItem> */}
+      //       <DropdownMenuSeparator />
+      //       <DropdownMenuItem asChild>
+      //         <Dialog>
+      //           <DialogTrigger asChild>
+      //             <Button
+      //               variant='outline'
+      //               className='flex space-x-2 w-full justify-start'
+      //             >
+      //               <Edit /> Edit
+      //             </Button>
+      //           </DialogTrigger>
+      //           <DialogContent>
+      //             <DialogHeader>
+      //               <DialogTitle>Are you absolutely sure?</DialogTitle>
+      //               <DialogDescription>
+      //                 This action cannot be undone. This will permanently update
+      //                 your account and update your data from our servers.
+      //               </DialogDescription>
+      //             </DialogHeader>
+      //             <DialogFooter className='sm:justify-start gap-y-3'>
+      //               <DialogClose asChild>
+      //                 <Button
+      //                   type='button'
+      //                   variant='secondary'
+      //                   onClick={editTask}
+      //                 >
+      //                   Confirm
+      //                 </Button>
+      //               </DialogClose>
+      //               <DialogClose asChild>
+      //                 <Button type='button' variant='ghost'>
+      //                   Cancel
+      //                 </Button>
+      //               </DialogClose>
+      //             </DialogFooter>
+      //           </DialogContent>
+      //         </Dialog>
+      //       </DropdownMenuItem>
+      //       <DropdownMenuItem
+      //         onSelect={(e) => {
+      //           e.preventDefault();
+      //           console.log('delete');
+      //         }}
+      //         asChild
+      //       >
+      //         <Dialog>
+      //           <DialogTrigger asChild>
+      //             <Button
+      //               variant='outline'
+      //               className='flex space-x-2 w-full justify-start'
+      //             >
+      //               <TrashIcon /> Remove
+      //             </Button>
+      //           </DialogTrigger>
+      //           <DialogContent>
+      //             <DialogHeader>
+      //               <DialogTitle>Are you absolutely sure?</DialogTitle>
+      //               <DialogDescription>
+      //                 This action cannot be undone. This will permanently delete
+      //                 your account and remove your data from our servers.
+      //               </DialogDescription>
+      //             </DialogHeader>
+      //             <DialogFooter className='sm:justify-start gap-y-3'>
+      //               <DialogClose asChild>
+      //                 <Button
+      //                   type='button'
+      //                   variant='destructive'
+      //                   onClick={removeTask}
+      //                 >
+      //                   Confirm
+      //                 </Button>
+      //               </DialogClose>
+      //               <DialogClose asChild>
+      //                 <Button type='button' variant='secondary'>
+      //                   Cancel
+      //                 </Button>
+      //               </DialogClose>
+      //             </DialogFooter>
+      //           </DialogContent>
+      //         </Dialog>
+      //       </DropdownMenuItem>
+      //     </DropdownMenuContent>
+      //   </DropdownMenu>
+      // );
     },
   },
 ];
