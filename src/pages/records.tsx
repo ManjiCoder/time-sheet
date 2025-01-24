@@ -55,6 +55,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { UpdateTaskForm } from '@/components/UpdateTaskForm';
 import { resetActiveTask } from '@/redux/features/task/activeTaskReducer';
 import {
   deleteTask,
@@ -214,8 +215,8 @@ export const columns: ColumnDef<Task>[] = [
               <MoreHorizontal />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className='right-5 relative w-40'>
-            <div className='mb-3 border-b'>Actions</div>
+          <PopoverContent className='right-5 relative w-40 flex flex-col gap-y-3'>
+            <div className='border-b'>Actions</div>
             <Dialog>
               <DialogTrigger asChild>
                 <Button
@@ -225,12 +226,11 @@ export const columns: ColumnDef<Task>[] = [
                   <Edit /> Edit
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className='flex flex-col gap-3'>
                 <DialogHeader>
                   <DialogTitle>Are you absolutely sure?</DialogTitle>
                   <DialogDescription>
-                    This action cannot be undone. This will permanently update
-                    your account and update your data from our servers.
+                    <UpdateTaskForm />
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter className='sm:justify-start gap-y-3'>

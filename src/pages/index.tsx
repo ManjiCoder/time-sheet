@@ -44,19 +44,25 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   const handleClick = () => {
+    const isTask = taskId;
+    const currentTask = isTask
+      ? tasks.findIndex((task) => task.id === taskId)
+      : null;
     const payload: Task = {
-      startTime: new Date().toISOString(),
+      startTime: currentTask
+        ? tasks[currentTask].startTime
+        : new Date().toISOString(),
       category: category ?? 'Misc',
-      isActive: false,
+      isActive: currentTask ? tasks[currentTask].isActive : false,
       duration: isActive ? '10min' : '-',
-      endTime: isActive ? new Date().toISOString() : null,
-      id: taskId ?? tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
+      endTime: currentTask ? new Date().toISOString() : null,
+      id: isTask && tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
     };
     if (isActive && taskId) {
       dispatch(resetActiveTask());
       dispatch(updateTask({ key: taskId, value: payload }));
     } else {
-      dispatch(addTask({ ...payload, isActive: true }));
+      dispatch(addTask(payload));
       dispatch(
         setActiveTask({
           taskId: payload.id,
