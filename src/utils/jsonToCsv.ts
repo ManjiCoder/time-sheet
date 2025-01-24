@@ -52,14 +52,14 @@ export const calculateDuration = (startTime: string, endTime: string) => {
   const hrs = Math.abs(differenceInHours(startTime, endTime));
   const mins = Math.abs(differenceInMinutes(startTime, endTime));
   if (days > 0) {
-    duration += `${days.toString().padStart(2, '0')}:`;
+    duration += `${days.toString().padStart(2, '0')}:days`;
   }
   if (hrs > 0) {
-    duration += `${hrs.toString().padStart(2, '0')}:`;
+    duration += `${hrs.toString().padStart(2, '0')}:hrs`;
   }
   if (mins > 0) {
-    duration += mins.toString().padStart(2, '0');
+    duration += `${mins.toString().padStart(2, '0')}min`;
   }
 
-  return duration;
+  return duration + 'mins';
 };

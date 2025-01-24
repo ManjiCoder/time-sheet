@@ -54,13 +54,16 @@ export default function Home() {
         ? tasks[currentTask].startTime
         : new Date().toISOString(),
       category: category ?? 'Misc',
-      isActive: currentTask ? tasks[currentTask].isActive : false,
+      isActive: currentTask ? tasks[currentTask].isActive : true,
       duration: '-',
       endTime: currentTask ? new Date().toISOString() : null,
       id: isTask && tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
     };
-    if (isActive && taskId && payload.endTime) {
-      payload.duration = calculateDuration(payload.startTime, payload.endTime);
+    if (isActive && taskId) {
+      payload.duration = calculateDuration(
+        payload.startTime,
+        new Date().toISOString()
+      );
       dispatch(resetActiveTask());
       dispatch(updateTask({ key: taskId, value: payload }));
     } else {
