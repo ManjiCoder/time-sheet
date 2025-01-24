@@ -1,5 +1,10 @@
 import { Task } from '@/redux/features/task/taskReducer';
 import { appName } from '@/types/constants';
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+} from 'date-fns';
 
 export const jsonToCsv = (
   arr: Task[],
@@ -39,4 +44,22 @@ export const downloadCSV = (csvStr: string) => {
 
   document.body.removeChild(a); // remove
   URL.revokeObjectURL(url); // remove
+};
+
+export const calculateDuration = (startTime: string, endTime: string) => {
+  let duration = '-';
+  const days = Math.abs(differenceInDays(startTime, endTime));
+  const hrs = Math.abs(differenceInHours(startTime, endTime));
+  const mins = Math.abs(differenceInMinutes(startTime, endTime));
+  if (days > 0) {
+    duration += `${days.toString().padStart(2, '0')}:`;
+  }
+  if (hrs > 0) {
+    duration += `${hrs.toString().padStart(2, '0')}:`;
+  }
+  if (mins > 0) {
+    duration += mins.toString().padStart(2, '0');
+  }
+
+  return duration;
 };

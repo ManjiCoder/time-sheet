@@ -15,6 +15,7 @@ import {
 } from '@/redux/features/task/activeTaskReducer';
 import { addTask, Task, updateTask } from '@/redux/features/task/taskReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { calculateDuration } from '@/utils/jsonToCsv';
 import {
   LucideCode,
   LucideCodeXml,
@@ -54,11 +55,12 @@ export default function Home() {
         : new Date().toISOString(),
       category: category ?? 'Misc',
       isActive: currentTask ? tasks[currentTask].isActive : false,
-      duration: isActive ? '10min' : '-',
+      duration: '-',
       endTime: currentTask ? new Date().toISOString() : null,
       id: isTask && tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
     };
-    if (isActive && taskId) {
+    if (isActive && taskId && payload.endTime) {
+      payload.duration = calculateDuration(payload.startTime, payload.endTime);
       dispatch(resetActiveTask());
       dispatch(updateTask({ key: taskId, value: payload }));
     } else {
