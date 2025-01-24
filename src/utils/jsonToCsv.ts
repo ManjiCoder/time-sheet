@@ -47,19 +47,23 @@ export const downloadCSV = (csvStr: string) => {
 };
 
 export const calculateDuration = (startTime: string, endTime: string) => {
-  let duration = '-';
+  let duration = '0';
   const days = Math.abs(differenceInDays(startTime, endTime));
   const hrs = Math.abs(differenceInHours(startTime, endTime));
   const mins = Math.abs(differenceInMinutes(startTime, endTime));
   if (days > 0) {
-    duration += `${days.toString().padStart(2, '0')}:days`;
+    duration += `${days.toString().padStart(2, '0')}:${
+      days > 1 ? 'days' : 'day'
+    }`;
   }
   if (hrs > 0) {
-    duration += `${hrs.toString().padStart(2, '0')}:hrs`;
+    duration += `${hrs.toString().padStart(2, '0')}:${hrs > 1 ? 'hrs' : 'hr'}`;
   }
   if (mins > 0) {
-    duration += `${mins.toString().padStart(2, '0')}min`;
+    duration += `${mins.toString().padStart(2, '0')}${
+      mins > 1 ? 'mins' : 'min'
+    }`;
   }
 
-  return duration + 'mins';
+  return duration;
 };

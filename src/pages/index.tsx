@@ -45,8 +45,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   const handleClick = () => {
-    const isTask = taskId;
-    const currentTask = isTask
+    const currentTask = isActive
       ? tasks.findIndex((task) => task.id === taskId)
       : null;
     const payload: Task = {
@@ -54,16 +53,17 @@ export default function Home() {
         ? tasks[currentTask].startTime
         : new Date().toISOString(),
       category: category ?? 'Misc',
-      isActive: currentTask ? tasks[currentTask].isActive : true,
+      isActive: true,
       duration: '-',
-      endTime: currentTask ? new Date().toISOString() : null,
-      id: isTask && tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
+      endTime: isActive ? new Date().toISOString() : null,
+      id: isActive && tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
     };
     if (isActive && taskId) {
       payload.duration = calculateDuration(
         payload.startTime,
-        new Date().toISOString()
+        payload.endTime || new Date().toISOString()
       );
+      payload.isActive = false;
       dispatch(resetActiveTask());
       dispatch(updateTask({ key: taskId, value: payload }));
     } else {
