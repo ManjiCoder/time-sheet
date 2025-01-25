@@ -9,6 +9,7 @@ import { task } from '@/lib/zodSchemas';
 import { categories } from '@/pages';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import ErrorComponent from './ErrorComponent';
 import { Button } from './ui/button';
 import { Checkbox } from './ui/checkbox';
 import { Input } from './ui/input';
@@ -23,18 +24,22 @@ function UpdateTaskForm() {
     resolver: zodResolver(task),
   });
   const onSubmit = (data) => console.log(data);
-  console.log({ errors });
+  console.log(errors);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-2 gap-5 py-4'>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='grid grid-cols-2 gap-5 py-4'
+    >
       <div className='formField'>
         <Label htmlFor='startTime'>Start Time</Label>
         <Input
           id='startTime'
           type='date'
           placeholder='Start Time'
-          {...register}
+          {...register('startTime')}
         />
+        <ErrorComponent msg={errors.startTime?.message} />
       </div>
       <div className='formField'>
         <Label htmlFor='endTime'>End Time</Label>
@@ -42,8 +47,9 @@ function UpdateTaskForm() {
           id='endTime'
           type='date'
           placeholder='End Time'
-          {...register('endTime', { required: true })}
+          {...register('endTime')}
         />
+        <ErrorComponent msg={errors.endTime?.message} />
       </div>
       <div className='formField'>
         <Label htmlFor='category'>Category</Label>
@@ -66,14 +72,21 @@ function UpdateTaskForm() {
 
       <div className='formField'>
         <Label htmlFor='duration'>Duration</Label>
-        <Input type='time' id='duration' placeholder='Duration' {...register} />
+        <Input
+          type='time'
+          id='duration'
+          placeholder='Duration'
+          {...register('duration')}
+        />
+        <ErrorComponent msg={errors.duration?.message} />
       </div>
 
       <div className='formField flex-row col-span-2'>
-        <Checkbox id='isActive' {...register} />
+        <Checkbox id='isActive' {...register('isActive')} />
         <Label htmlFor='isActive' className='ml-3'>
           Mark as completed
         </Label>
+        {/* {errors.isActive && alert('Check it')} */}
       </div>
 
       <Button type='submit' variant='default'>
