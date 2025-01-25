@@ -71,4 +71,7 @@
   .wrapper {
     @apply w-full container p-4 mx-auto;
   }
+  .formField {
+    @apply flex flex-col items-start justify-items-center;
+  }
 }

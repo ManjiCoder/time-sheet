@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
-const categories = [
+export const categories = [
   { id: 1, name: 'CSS Dev', icon: <LucideCode /> },
   { id: 2, name: 'Geeks For Geeks', icon: <LucideCodeXml /> },
   { id: 3, name: 'Youtube', icon: <LucideYoutube /> },
