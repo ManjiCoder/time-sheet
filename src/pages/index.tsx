@@ -47,7 +47,7 @@ export default function Home() {
   const handleClick = () => {
     // Default
     const payload: Task = {
-      id: tasks.length > 1 ? tasks[tasks.length - 1].id + 1 : 1,
+      id: tasks.length > 1 ? tasks[tasks.length - 1].id + 1 : tasks.length + 1,
       isActive: true,
       startTime: new Date().toISOString(),
       endTime: null,
@@ -96,8 +96,8 @@ export default function Home() {
               {category || 'Category'}
             </Button>
           </DrawerTrigger>
-          <DrawerContent>
-            <div className='mx-auto h-[80vh] w-full max-w-sm'>
+          <DrawerContent className='h-[80vh]'>
+            <div className='h-[80vh] overflow-y-auto w-full grid place-items-center pb-8'>
               <DrawerHeader className='grid gap-11 grid-cols-2 lg:grid-cols-3'>
                 <DrawerTitle hidden>Select category</DrawerTitle>
                 <DrawerDescription hidden>
