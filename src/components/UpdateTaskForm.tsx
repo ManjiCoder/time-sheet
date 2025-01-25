@@ -38,11 +38,17 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
       isActive: currentTask.isActive,
     },
   });
-  const onSubmit = (data) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSubmit = (data: any) => {
     // console.log(data);
-    const payload = { ...currentTask, ...data };
-    dispatch(updateTask({ key: currentTask.id, value: payload }));
-    console.log({ payload });
+    try {
+      const payload = { ...currentTask, ...data };
+      dispatch(updateTask({ key: currentTask.id, value: payload }));
+      console.log(payload);
+      closeModal();
+    } catch (error) {
+      console.log(error);
+    }
 
     // closeModal();
   };

@@ -202,11 +202,7 @@ export const columns: ColumnDef<Task>[] = [
         dispatch(deleteTask({ key: row.original.id }));
         // dispatch(resetActiveTask()); // this will reset the current Task
       };
-      const editTask = () => {
-        // dispatch(updateTask({ key: row.original.id, value: row.original }));
-        // dispatch(resetActiveTask());
-        return row.original.id;
-      };
+
       return (
         <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger>
