@@ -38,6 +38,9 @@ function UpdateTaskForm() {
           type='date'
           placeholder='Start Time'
           {...register('startTime')}
+          className={
+            errors.startTime?.message && 'ring-offset-2 ring-2 ring-red-600'
+          }
         />
         <ErrorComponent msg={errors.startTime?.message} />
       </div>
