@@ -233,7 +233,7 @@ export const columns: ColumnDef<Task>[] = [
                     <UpdateTaskForm />
                   </DialogDescription>
                 </DialogHeader>
-                <DialogFooter className='sm:justify-start gap-y-3'>
+                {/* <DialogFooter className='sm:justify-start gap-y-3'>
                   <DialogClose asChild>
                     <Button
                       type='button'
@@ -248,7 +248,7 @@ export const columns: ColumnDef<Task>[] = [
                       Cancel
                     </Button>
                   </DialogClose>
-                </DialogFooter>
+                </DialogFooter> */}
               </DialogContent>
             </Dialog>
             <Dialog>

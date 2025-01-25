@@ -55,7 +55,7 @@ export function UpdateTaskForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='grid my-8 grid-cols-2 items-center justify-center  gap-5'
+        className='grid mt-8 mb-4 grid-cols-2 items-center justify-center  gap-5'
       >
         <FormField
           control={form.control}
@@ -140,7 +140,7 @@ export function UpdateTaskForm() {
             </FormItem>
           )}
         />
-        <section className='my-8 flex justify-center space-x-8 items-center col-span-2'>
+        <section className='mt-4 flex justify-center space-x-8 items-center col-span-2'>
           <Button type='submit'>Submit</Button>
           <Button type='button' variant='secondary'>
             Cancel
