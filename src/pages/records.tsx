@@ -232,7 +232,8 @@ export const columns: ColumnDef<Task>[] = [
                   <DialogDescription>
                     <UpdateTaskForm
                       // handleSubmit={editTask}
-                      // closeModal={closeModal}
+                      currentTask={row.original}
+                      closeModal={closeModal}
                     />
                   </DialogDescription>
                 </DialogHeader>

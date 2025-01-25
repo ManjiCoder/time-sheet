@@ -1,6 +1,6 @@
 import { z } from 'zod';
 export const task = z.object({
-  isActive: z.string().transform((value) => value === 'on'),
+//   isActive: z.string(),
   startTime: z
     .string({ required_error: 'Start Time is required' })
     .date('Invalid Date')
