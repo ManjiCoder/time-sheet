@@ -199,6 +199,10 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const dispatch = useAppDispatch();
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [isOpen, setIsOpen] = React.useState(false);
+      const closeModal = () => setIsOpen(false);
+      const openModal = () => setIsOpen(true);
       const removeTask = () => {
         dispatch(deleteTask({ key: row.original.id }));
         // dispatch(resetActiveTask()); // this will reset the current Task
@@ -208,9 +212,9 @@ export const columns: ColumnDef<Task>[] = [
         dispatch(resetActiveTask());
       };
       return (
-        <Popover>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
           <PopoverTrigger>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
+            <Button variant='ghost' className='h-8 w-8 p-0' onClick={openModal}>
               <span className='sr-only'>Open menu</span>
               <MoreHorizontal />
             </Button>
@@ -230,7 +234,7 @@ export const columns: ColumnDef<Task>[] = [
                 <DialogHeader>
                   <DialogTitle>Are you absolutely sure?</DialogTitle>
                   <DialogDescription>
-                    <UpdateTaskForm />
+                    <UpdateTaskForm handleSubmit={editTask} closeModal={closeModal} />
                   </DialogDescription>
                 </DialogHeader>
                 {/* <DialogFooter className='sm:justify-start gap-y-3'>

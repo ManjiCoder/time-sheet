@@ -31,7 +31,13 @@ const formSchema = z.object({
   }),
 });
 
-export function UpdateTaskForm() {
+export function UpdateTaskForm({
+  closeModal,
+  handleSubmit,
+}: {
+  closeModal: () => void;
+  handleSubmit: () => void;
+}) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,6 +55,8 @@ export function UpdateTaskForm() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    handleSubmit();
+    closeModal();
   }
 
   return (
@@ -130,7 +138,7 @@ export function UpdateTaskForm() {
           render={({ field }) => (
             <FormItem className='col-span-2 space-x-3 flex items-center justify-center'>
               <FormControl>
-                <Checkbox />
+                <Checkbox name={field.name} onChange={field.onChange} />
               </FormControl>
               <FormLabel>Mark as Compeleted</FormLabel>
               <FormDescription>
@@ -142,7 +150,7 @@ export function UpdateTaskForm() {
         />
         <section className='mt-4 flex justify-center space-x-8 items-center col-span-2'>
           <Button type='submit'>Submit</Button>
-          <Button type='button' variant='secondary'>
+          <Button type='button' variant='secondary' onClick={closeModal}>
             Cancel
           </Button>
         </section>
