@@ -1,166 +1,35 @@
-'use client';
-
+import { task } from '@/lib/zodSchemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { resetActiveTask } from '@/redux/features/task/activeTaskReducer';
-import { updateTask } from '@/redux/features/task/taskReducer';
-import { useAppDispatch } from '@/redux/hooks';
-import { Checkbox } from './ui/checkbox';
-
-const formSchema = z.object({
-  isActive: z.boolean(),
-  startTime: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
-  endTime: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
-  category: z.string().default('Misc'),
-  duration: z.string().min(1, {
-    message: 'Username must be at least 1 characters.',
-  }),
-});
-
-export function UpdateTaskForm({
-  closeModal,
-  handleSubmit,
-}: {
-  closeModal: () => void;
-  handleSubmit: () => number;
-}) {
-  const dispatch = useAppDispatch();
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      isActive: false,
-      startTime: '',
-      endTime: '',
-      category: '',
-      duration: '',
-    },
+function UpdateTaskForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(task),
   });
-
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-    const id = handleSubmit();
-    dispatch(updateTask({ key: id, value: { ...values, id } }));
-    dispatch(resetActiveTask());
-    closeModal();
-  }
+  const onSubmit = (data) => console.log(data);
+  console.log({ errors });
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className='grid mt-8 mb-4 grid-cols-2 items-center justify-center  gap-5'
-      >
-        <FormField
-          control={form.control}
-          name='startTime'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Start Time</FormLabel>
-              <FormControl>
-                <Input type='date' placeholder='dd-mm-yyyy' {...field} />
-              </FormControl>
-              <FormDescription>
-                {/* This is your public display name. */}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='endTime'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>End Time</FormLabel>
-              <FormControl>
-                <Input type='date' placeholder='dd-mm-yyyy' {...field} />
-              </FormControl>
-              <FormDescription>
-                {/* This is your public display name. */}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input type='date' placeholder='startTime' {...register} />
+      <input
+        type='date'
+        placeholder='endTime'
+        {...register('endTime', { required: true })}
+      />
+      <select {...register('category')}>
+        <option value='CSS Dev'>CSS Dev</option>
+      </select>
+      <input type='time' placeholder='duration' {...register} />
+      <input type='checkbox' placeholder='isActive' {...register} />
 
-        <FormField
-          control={form.control}
-          name='category'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Category</FormLabel>
-              <FormControl>
-                <Input type='text' placeholder='Category' {...field} />
-              </FormControl>
-              <FormDescription>
-                {/* This is your public display name. */}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name='duration'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Duration</FormLabel>
-              <FormControl>
-                <Input type='text' placeholder='Duration' {...field} />
-              </FormControl>
-              <FormDescription>
-                {/* This is your public display name. */}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name='isActive'
-          render={({ field }) => (
-            <FormItem className='col-span-2 space-x-3 flex items-center justify-center'>
-              <FormControl>
-                <Checkbox name={field.name} onChange={field.onChange} />
-              </FormControl>
-              <FormLabel className='!mt-0'>Mark as Compeleted</FormLabel>
-              <FormDescription>
-                {/* This is your public display name. */}
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <section className='mt-4 flex justify-center space-x-8 items-center col-span-2'>
-          <Button type='submit'>Submit</Button>
-          <Button type='button' variant='secondary' onClick={closeModal}>
-            Cancel
-          </Button>
-        </section>
-      </form>
-    </Form>
+      <input type='submit' />
+    </form>
   );
 }
+
+export default UpdateTaskForm;

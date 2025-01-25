@@ -55,7 +55,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { UpdateTaskForm } from '@/components/UpdateTaskForm';
+import UpdateTaskForm from '@/components/UpdateTaskForm';
 import { deleteTask, Task } from '@/redux/features/task/taskReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { calculateDuration, downloadCSV, jsonToCsv } from '@/utils/jsonToCsv';
@@ -231,8 +231,8 @@ export const columns: ColumnDef<Task>[] = [
                   <DialogTitle>Are you absolutely sure?</DialogTitle>
                   <DialogDescription>
                     <UpdateTaskForm
-                      handleSubmit={editTask}
-                      closeModal={closeModal}
+                      // handleSubmit={editTask}
+                      // closeModal={closeModal}
                     />
                   </DialogDescription>
                 </DialogHeader>
