@@ -26,7 +26,7 @@ export const jsonToCsv = (
       // @ts-ignore
       csvDesc += `${task[key]},`;
     });
-    csvData += `${csvDesc.slice(0,-1)}\n`;
+    csvData += `${csvDesc.slice(0, -1)}\n`;
     csvDesc = '';
   });
   return csvData;
@@ -52,18 +52,14 @@ export const calculateDuration = (startTime: string, endTime: string) => {
   const hrs = Math.abs(differenceInHours(startTime, endTime));
   const mins = Math.abs(differenceInMinutes(startTime, endTime));
   if (days > 0) {
-    duration += `${days.toString().padStart(2, '0')}:${
-      days > 1 ? 'days' : 'day'
-    }`;
+    duration += `${days.toString()}:${days > 1 ? ' days' : ' day'}`;
   }
   if (hrs > 0) {
-    duration += `${hrs.toString().padStart(2, '0')}:${hrs > 1 ? 'hrs' : 'hr'}`;
+    duration += `${hrs.toString()}:${hrs > 1 ? ' hrs' : ' hr'}`;
   }
   if (mins > 0) {
-    duration += `${mins.toString().padStart(2, '0')}${
-      mins > 1 ? 'mins' : 'min'
-    }`;
+    duration += `${mins.toString()}${mins > 1 ? ' mins' : ' min'}`;
   }
 
-  return duration || '0min';
+  return duration || '0 min';
 };

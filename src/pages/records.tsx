@@ -63,8 +63,8 @@ import {
   updateTask,
 } from '@/redux/features/task/taskReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { jsonToCsv } from '@/utils/jsonToCsv';
-import { differenceInDays, differenceInHours, format } from 'date-fns';
+import { calculateDuration, downloadCSV, jsonToCsv } from '@/utils/jsonToCsv';
+import { format } from 'date-fns';
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -424,25 +424,12 @@ export default function Records() {
 
   const handleBackup = () => {
     const updatedTasks = tasks.map((task) => {
-      let duration = '-';
-      if (task.endTime) {
-        const days = differenceInDays(task.startTime, task.endTime);
-        const hrs = differenceInHours(task.startTime, task.endTime);
-        const mins = differenceInHours(task.startTime, task.endTime);
-        if (days > 0) {
-          duration += `${days.toString().padStart(2, '0')}:`;
-        }
-        if (hrs > 0) {
-          duration += `${hrs.toString().padStart(2, '0')}:`;
-        }
-        if (mins > 0) {
-          duration += mins.toString().padStart(2, '0');
-        }
-      }
-
       return {
         ...task,
-        duration,
+        duration: calculateDuration(
+          task.startTime,
+          task.endTime || new Date().toISOString()
+        ),
         isActive: !task.isActive ? 'Completed' : 'Not Completed',
         startTime: format(task.startTime, 'dd MMM yy hh:mm:a'),
         endTime: task.endTime ? format(task.endTime, 'dd MMM yy hh:mm:a') : '-',
@@ -459,7 +446,7 @@ export default function Records() {
       endTime: 'End Time',
     });
     console.log(csvData);
-    // downloadCSV(csvData);
+    downloadCSV(csvData);
   };
 
   return (
