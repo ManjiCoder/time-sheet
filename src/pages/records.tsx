@@ -56,12 +56,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { UpdateTaskForm } from '@/components/UpdateTaskForm';
-import { resetActiveTask } from '@/redux/features/task/activeTaskReducer';
-import {
-  deleteTask,
-  Task,
-  updateTask,
-} from '@/redux/features/task/taskReducer';
+import { deleteTask, Task } from '@/redux/features/task/taskReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { calculateDuration, downloadCSV, jsonToCsv } from '@/utils/jsonToCsv';
 import { format } from 'date-fns';
@@ -208,8 +203,9 @@ export const columns: ColumnDef<Task>[] = [
         // dispatch(resetActiveTask()); // this will reset the current Task
       };
       const editTask = () => {
-        dispatch(updateTask({ key: row.original.id, value: row.original }));
-        dispatch(resetActiveTask());
+        // dispatch(updateTask({ key: row.original.id, value: row.original }));
+        // dispatch(resetActiveTask());
+        return row.original.id;
       };
       return (
         <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -234,7 +230,10 @@ export const columns: ColumnDef<Task>[] = [
                 <DialogHeader>
                   <DialogTitle>Are you absolutely sure?</DialogTitle>
                   <DialogDescription>
-                    <UpdateTaskForm handleSubmit={editTask} closeModal={closeModal} />
+                    <UpdateTaskForm
+                      handleSubmit={editTask}
+                      closeModal={closeModal}
+                    />
                   </DialogDescription>
                 </DialogHeader>
                 {/* <DialogFooter className='sm:justify-start gap-y-3'>

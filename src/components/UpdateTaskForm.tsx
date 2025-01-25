@@ -15,6 +15,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { resetActiveTask } from '@/redux/features/task/activeTaskReducer';
+import { updateTask } from '@/redux/features/task/taskReducer';
+import { useAppDispatch } from '@/redux/hooks';
 import { Checkbox } from './ui/checkbox';
 
 const formSchema = z.object({
@@ -36,8 +39,9 @@ export function UpdateTaskForm({
   handleSubmit,
 }: {
   closeModal: () => void;
-  handleSubmit: () => void;
+  handleSubmit: () => number;
 }) {
+  const dispatch = useAppDispatch();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,7 +59,9 @@ export function UpdateTaskForm({
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
-    handleSubmit();
+    const id = handleSubmit();
+    dispatch(updateTask({ key: id, value: { ...values, id } }));
+    dispatch(resetActiveTask());
     closeModal();
   }
 
@@ -140,7 +146,7 @@ export function UpdateTaskForm({
               <FormControl>
                 <Checkbox name={field.name} onChange={field.onChange} />
               </FormControl>
-              <FormLabel>Mark as Compeleted</FormLabel>
+              <FormLabel className='!mt-0'>Mark as Compeleted</FormLabel>
               <FormDescription>
                 {/* This is your public display name. */}
               </FormDescription>
