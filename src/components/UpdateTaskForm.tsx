@@ -23,7 +23,9 @@ function UpdateTaskForm() {
   } = useForm({
     resolver: zodResolver(task),
   });
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+  };
   console.log(errors);
 
   return (
