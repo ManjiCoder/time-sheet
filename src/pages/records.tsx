@@ -201,7 +201,7 @@ export const columns: ColumnDef<Task>[] = [
       const dispatch = useAppDispatch();
       const removeTask = () => {
         dispatch(deleteTask({ key: row.original.id }));
-        dispatch(resetActiveTask());
+        // dispatch(resetActiveTask()); // this will reset the current Task
       };
       const editTask = () => {
         dispatch(updateTask({ key: row.original.id, value: row.original }));
