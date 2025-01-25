@@ -45,31 +45,31 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   const handleClick = () => {
-    const currentTask = isActive
-      ? tasks.findIndex((task) => task.id === taskId)
-      : null;
+    // Default
     const payload: Task = {
-      startTime: currentTask
-        ? tasks[currentTask].startTime
-        : new Date().toISOString(),
-      category: category ?? 'Misc',
+      id: tasks.length > 1 ? tasks[tasks.length - 1].id + 1 : 1,
       isActive: true,
+      startTime: new Date().toISOString(),
+      endTime: null,
+      category: category ?? 'Misc',
       duration: '-',
-      endTime: isActive ? new Date().toISOString() : null,
-      id: currentTask
-        ? tasks[currentTask].id
-        : tasks.length > 0
-        ? tasks[tasks.length - 1].id + 1
-        : 1,
     };
     if (isActive && taskId) {
-      payload.duration = calculateDuration(
-        payload.startTime,
-        payload.endTime || new Date().toISOString()
+      const currentTask = tasks[tasks.findIndex((task) => task.id === taskId)];
+      const newPayload: Task = {
+        id: currentTask.id,
+        isActive: false,
+        startTime: currentTask.startTime,
+        endTime: new Date().toISOString(),
+        category: currentTask.category,
+        duration: '-',
+      };
+      newPayload.duration = calculateDuration(
+        currentTask.startTime,
+        newPayload.endTime || new Date().toISOString()
       );
-      payload.isActive = false;
       dispatch(resetActiveTask());
-      dispatch(updateTask({ key: taskId, value: payload }));
+      dispatch(updateTask({ key: taskId, value: newPayload }));
     } else {
       dispatch(addTask(payload));
       dispatch(

@@ -26,7 +26,7 @@ export const jsonToCsv = (
       // @ts-ignore
       csvDesc += `${task[key]},`;
     });
-    csvData += `${csvDesc}\n`;
+    csvData += `${csvDesc.slice(0,-1)}\n`;
     csvDesc = '';
   });
   return csvData;
