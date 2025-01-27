@@ -20,10 +20,11 @@ export default function Timer() {
       const [hrElemt, minElemt, secElemt] = Array.from(
         timerRef.current.children
       );
+      secElemt.classList.remove('animate-pulse');
       if (hr > 0) {
         hrElemt.textContent = hr.toString().padStart(2, '0');
       }
-      minElemt.textContent = min.toString().padStart(2, '0');
+      minElemt.textContent = min.toString().padStart(2, '0') + ':';
       secElemt.textContent = sec.toString().padStart(2, '0');
     }
   };
@@ -36,7 +37,8 @@ export default function Timer() {
   return (
     <div ref={timerRef} className='text-2xl font-semibold'>
       <span></span>
-      <span></span>:<span></span>
+      <span></span>
+      <span className='animate-pulse'>Loading...</span>
     </div>
   );
 }
