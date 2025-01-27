@@ -22,7 +22,7 @@ export default function Timer() {
       );
       secElemt.classList.remove('animate-pulse');
       if (hr > 0) {
-        hrElemt.textContent = hr.toString().padStart(2, '0');
+        hrElemt.textContent = hr.toString().padStart(2, '0') + ':';
       }
       minElemt.textContent = min.toString().padStart(2, '0') + ':';
       secElemt.textContent = sec.toString().padStart(2, '0');
