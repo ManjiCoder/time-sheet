@@ -1,10 +1,42 @@
 import { useAppSelector } from '@/redux/hooks';
+import {
+  differenceInHours,
+  differenceInMinutes,
+  differenceInSeconds,
+} from 'date-fns';
+import { useEffect, useRef } from 'react';
 
 export default function Timer() {
   const tasks = useAppSelector((state) => state.task);
   const { taskId } = useAppSelector((state) => state.activeTask);
   const currentTask = tasks.find((task) => task.id === taskId);
-  console.log(currentTask);
-  if (!currentTask) return null;
-  return <div>Timer</div>;
+  const timerRef = useRef<HTMLDivElement>(null);
+
+  const showTimer = (date = new Date()) => {
+    if (currentTask && timerRef.current) {
+      const hr = differenceInHours(date, currentTask.startTime) % 24;
+      const min = differenceInMinutes(date, currentTask.startTime) % 60;
+      const sec = differenceInSeconds(date, currentTask.startTime) % 60;
+      const [hrElemt, minElemt, secElemt] = Array.from(
+        timerRef.current.children
+      );
+      if (hr > 0) {
+        hrElemt.textContent = hr.toString().padStart(2, '0');
+      }
+      minElemt.textContent = min.toString().padStart(2, '0');
+      secElemt.textContent = sec.toString().padStart(2, '0');
+    }
+  };
+  useEffect(() => {
+    const intervalId = setInterval(showTimer, 1000);
+    return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTask]);
+
+  return (
+    <div ref={timerRef} className='text-2xl font-semibold'>
+      <span></span>
+      <span></span>:<span></span>
+    </div>
+  );
 }
