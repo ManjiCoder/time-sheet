@@ -8,7 +8,7 @@ import { useEffect, useRef } from 'react';
 
 export default function Timer() {
   const tasks = useAppSelector((state) => state.task);
-  const { taskId } = useAppSelector((state) => state.activeTask);
+  const { isActive, taskId } = useAppSelector((state) => state.activeTask);
   const currentTask = tasks.find((task) => task.id === taskId);
   const timerRef = useRef<HTMLDivElement>(null);
 
@@ -35,10 +35,14 @@ export default function Timer() {
   }, [currentTask]);
 
   return (
-    <div ref={timerRef} className='text-2xl font-semibold'>
-      <span></span>
-      <span></span>
-      <span className='animate-pulse'>Loading...</span>
+    <div className='text-2xl font-semibold'>
+      {isActive && (
+        <div ref={timerRef}>
+          <span></span>
+          <span></span>
+          <span className='animate-pulse'>Loading...</span>
+        </div>
+      )}
     </div>
   );
 }
