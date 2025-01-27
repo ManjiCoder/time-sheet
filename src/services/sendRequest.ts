@@ -5,7 +5,7 @@ const timeout = 5000;
 interface Request {
   endPoint: string;
   method: Method;
-  header?: Record<string, string>;
+  headers?: Record<string, string>;
   data?: unknown;
   params?: Record<string, unknown>;
 }
@@ -17,15 +17,19 @@ const defaltConfig: AxiosRequestConfig = {
 };
 const axiosInstance: AxiosInstance = axios.create(defaltConfig);
 
-const sendRequest = async <T>({
-  method,
+const sendRequest = async <R>({
   endPoint,
+  method,
   headers,
   data,
   params,
 }: Request) => {
   try {
-    const config: AxiosRequestConfig = { ...defaltConfig };
+    const config: AxiosRequestConfig = {
+      ...defaltConfig,
+      baseURL: `${baseURL}${endPoint}`,
+      method,
+    };
     if (data) {
       config.data = data;
     }
@@ -37,7 +41,7 @@ const sendRequest = async <T>({
     }
     const res = await axiosInstance(config);
     console.log(res.data);
-    return (await res.data) as T;
+    return (await res.data) as R;
   } catch (error) {
     console.log(error);
   }
