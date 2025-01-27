@@ -34,14 +34,14 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
     defaultValues: {
       startTime: format(currentTask.startTime, 'yyyy-MM-dd'),
       endTime: format(currentTask.endTime || new Date(), 'yyyy-MM-dd'),
-      duration: currentTask.duration,
+      duration: currentTask.duration || '00:00',
       category: currentTask.category,
       isActive: !currentTask.isActive, // isActive mean runing not completed
     },
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
-    console.log({ data });
+    console.table(data);
     try {
       const payload = { ...currentTask, ...data };
       dispatch(updateTask({ key: currentTask.id, value: payload }));
@@ -126,7 +126,7 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
             <Checkbox
               id='isActive'
               checked={field.value}
-              onCheckedChange={field.onChange}
+              onCheckedChange={(checked) => field.onChange(checked)}
             />
           )}
         />
