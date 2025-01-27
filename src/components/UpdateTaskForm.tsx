@@ -23,6 +23,7 @@ type UpdateFormProps = {
 };
 function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
   // console.table(currentTask);
+
   const dispatch = useAppDispatch();
   const {
     register,
@@ -41,16 +42,15 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
-    console.table(data);
+    // console.table(data);
     try {
-      const payload = { ...currentTask, ...data };
+      const payload = { ...currentTask, ...data, isActive: !data.isActive };
       dispatch(updateTask({ key: currentTask.id, value: payload }));
       // console.table(payload);
       closeModal();
     } catch (error) {
       console.log(error);
     }
-
     closeModal();
   };
 
@@ -66,9 +66,7 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
           type='date'
           placeholder='Start Time'
           {...register('startTime')}
-          className={
-            errors.startTime?.message && 'ring-offset-2 ring-2 ring-red-600'
-          }
+          className={errors.startTime?.message && 'inputError'}
         />
         <ErrorComponent msg={errors.startTime?.message} />
       </div>
@@ -79,6 +77,7 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
           type='date'
           placeholder='End Time'
           {...register('endTime')}
+          className={errors.endTime?.message && 'inputError'}
         />
         <ErrorComponent msg={errors.endTime?.message} />
       </div>
@@ -92,7 +91,7 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
               <SelectTrigger id='category' className=''>
                 <SelectValue placeholder='Category' />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent defaultValue={field.value}>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.name}>
                     <span className='flex space-x-3 gap-3 pr-5'>
@@ -114,6 +113,7 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
           id='duration'
           placeholder='Duration'
           {...register('duration')}
+          className={errors.duration?.message && 'inputError'}
         />
         <ErrorComponent msg={errors.duration?.message} />
       </div>
