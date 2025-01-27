@@ -55,10 +55,12 @@ export const calculateDuration = (startTime: string, endTime: string) => {
     duration += `${days.toString()}:${days > 1 ? ' days' : ' day'}`;
   }
   if (hrs > 0) {
-    duration += `${hrs.toString()}:${hrs > 1 ? ' hrs' : ' hr'}`;
+    duration += `${hrs.toString()}`;
+    // duration += `${hrs.toString()}:${hrs > 1 ? ' hrs' : ' hr'}`;
   }
   if (mins > 0) {
-    duration += `${mins.toString()}${mins > 1 ? ' mins' : ' min'}`;
+    duration += `${mins.toString()}`;
+    // duration += `${mins.toString()}${mins > 1 ? ' mins' : ' min'}`;
   }
 
   return duration || '0 min';

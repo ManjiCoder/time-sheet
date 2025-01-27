@@ -58,7 +58,7 @@ import {
 import UpdateTaskForm from '@/components/UpdateTaskForm';
 import { deleteTask, Task } from '@/redux/features/task/taskReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { calculateDuration, downloadCSV, jsonToCsv } from '@/utils/jsonToCsv';
+import { calculateDuration, jsonToCsv } from '@/utils/jsonToCsv';
 import { format } from 'date-fns';
 
 export const columns: ColumnDef<Task>[] = [
@@ -184,7 +184,7 @@ export const columns: ColumnDef<Task>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('duration')}</div>,
+    cell: ({ row }) => <div>{row.getValue('duration') ?? '-'}</div>,
   },
 
   {
@@ -446,7 +446,7 @@ export default function Records() {
       endTime: 'End Time',
     });
     console.log(csvData);
-    downloadCSV(csvData);
+    // downloadCSV(csvData);
   };
 
   return (
