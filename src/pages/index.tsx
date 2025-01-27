@@ -13,9 +13,8 @@ import {
   resetActiveTask,
   setActiveTask,
 } from '@/redux/features/task/activeTaskReducer';
-import { Task } from '@/redux/features/task/taskReducer';
+import { addTask, Task, updateTask } from '@/redux/features/task/taskReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import sendRequest from '@/services/sendRequest';
 import { calculateDuration } from '@/utils/jsonToCsv';
 import {
   LucideCode,
@@ -26,7 +25,6 @@ import {
   LucideYoutube,
 } from 'lucide-react';
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 
 export const categories = [
   { id: 1, name: 'CSS Dev', icon: <LucideCode /> },
@@ -59,7 +57,7 @@ export default function Home() {
     if (isActive && taskId) {
       const currentTask = tasks[tasks.findIndex((task) => task.id === taskId)];
       const newPayload: Task = {
-        id: currentTask.id,
+        id: tasks.at(-1)?.id || currentTask.id,
         isActive: false,
         startTime: currentTask.startTime,
         endTime: new Date().toISOString(),
@@ -71,26 +69,28 @@ export default function Home() {
         newPayload.endTime || new Date().toISOString()
       );
       dispatch(resetActiveTask());
-      // dispatch(updateTask({ key: taskId, value: newPayload }));
+      dispatch(updateTask({ key: taskId, value: newPayload }));
+      // const p = sendRequest({
+      //   endPoint: `/id/${newPayload.id}`,
+      //   method: 'PATCH',
+      //   data: newPayload,
+      // });
+      // toast.promise(p, promiseOption);
     } else {
-      // dispatch(addTask(payload));
+      dispatch(addTask(payload));
       dispatch(
         setActiveTask({
-          taskId: payload.id,
+          taskId: tasks.at(-1)?.id,
           isActive: true,
           categoryId: category,
         })
       );
-      const p = sendRequest({
-        endPoint: '/',
-        method: 'POST',
-        data: { ...payload, id: 'INCREMENT' },
-      });
-      toast.promise(p, {
-        pending: 'Promise is pending',
-        success: 'Promise resolved 👌',
-        error: 'Promise rejected 🤯',
-      });
+      // const p = sendRequest({
+      //   endPoint: '/',
+      //   method: 'POST',
+      //   data: { ...payload, id: 'INCREMENT' },
+      // });
+      // toast.promise(p, promiseOption);
     }
 
     // console.table(payload);
