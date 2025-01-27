@@ -18,6 +18,8 @@ import { addTask, Task, updateTask } from '@/redux/features/task/taskReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { calculateDuration } from '@/utils/jsonToCsv';
 import {
+  CircleHelpIcon,
+  CurlyBraces,
   LucideCode,
   LucideCodeXml,
   LucideMusic,
@@ -29,11 +31,13 @@ import { useState } from 'react';
 
 export const categories = [
   { id: 1, name: 'CSS Dev', icon: <LucideCode /> },
-  { id: 2, name: 'Geeks For Geeks', icon: <LucideCodeXml /> },
+  { id: 2, name: 'Geeks For Geeks', icon: <CurlyBraces /> },
   { id: 3, name: 'Youtube', icon: <LucideYoutube /> },
   { id: 4, name: 'Music', icon: <LucideMusic /> },
   { id: 5, name: 'Calling', icon: <LucidePhoneCall /> },
   { id: 6, name: 'Phone', icon: <LucideSmartphone /> },
+  { id: 7, name: 'Coding', icon: <LucideCodeXml /> },
+  { id: 8, name: 'Unknown', icon: <CircleHelpIcon /> },
 ];
 
 export default function Home() {
