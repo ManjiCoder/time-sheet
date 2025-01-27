@@ -91,7 +91,7 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
               <SelectTrigger id='category' className=''>
                 <SelectValue placeholder='Category' />
               </SelectTrigger>
-              <SelectContent defaultValue={field.value}>
+              <SelectContent>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.name}>
                     <span className='flex space-x-3 gap-3 pr-5'>
