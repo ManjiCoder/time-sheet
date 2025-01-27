@@ -121,7 +121,7 @@ export default function Home() {
                     key={id}
                   >
                     <DrawerClose
-                      className='grid place-items-center shadow-md bg-slate-800 h-16 w-16 rounded-full'
+                      className='grid place-items-center text-white shadow-md bg-primary h-16 w-16 rounded-full'
                       key={name}
                       onClick={() => setCategory(name)}
                     >
