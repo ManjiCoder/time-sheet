@@ -9,6 +9,7 @@ import { appName } from '@/types/constants';
 import type { AppProps } from 'next/app';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import { PersistGate } from 'redux-persist/integration/react';
 
 const geistSans = Geist({
@@ -35,6 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <DynamicHead title={appName} desc='Time Sheet to know your time.' />
           <Component {...pageProps} />
           <Footer />
+          <ToastContainer />
         </div>
       </Provider>
     </ThemeProvider>

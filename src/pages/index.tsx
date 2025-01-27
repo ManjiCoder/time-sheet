@@ -13,8 +13,9 @@ import {
   resetActiveTask,
   setActiveTask,
 } from '@/redux/features/task/activeTaskReducer';
-import { addTask, Task, updateTask } from '@/redux/features/task/taskReducer';
+import { Task } from '@/redux/features/task/taskReducer';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import sendRequest from '@/services/sendRequest';
 import { calculateDuration } from '@/utils/jsonToCsv';
 import {
   LucideCode,
@@ -25,6 +26,7 @@ import {
   LucideYoutube,
 } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export const categories = [
   { id: 1, name: 'CSS Dev', icon: <LucideCode /> },
@@ -69,9 +71,9 @@ export default function Home() {
         newPayload.endTime || new Date().toISOString()
       );
       dispatch(resetActiveTask());
-      dispatch(updateTask({ key: taskId, value: newPayload }));
+      // dispatch(updateTask({ key: taskId, value: newPayload }));
     } else {
-      dispatch(addTask(payload));
+      // dispatch(addTask(payload));
       dispatch(
         setActiveTask({
           taskId: payload.id,
@@ -79,6 +81,16 @@ export default function Home() {
           categoryId: category,
         })
       );
+      const p = sendRequest({
+        endPoint: '/',
+        method: 'POST',
+        data: { ...payload, id: 'INCREMENT' },
+      });
+      toast.promise(p, {
+        pending: 'Promise is pending',
+        success: 'Promise resolved 👌',
+        error: 'Promise rejected 🤯',
+      });
     }
 
     // console.table(payload);
