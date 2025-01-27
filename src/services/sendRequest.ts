@@ -1,20 +1,10 @@
+import axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios';
 const baseURL = 'https://sheetdb.io/api/v1/yy3v79okf45e3';
 const timeout = 5000;
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-
-export enum HttpMethod {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  DELETE = 'DELETE',
-  PATCH = 'PATCH',
-  HEAD = 'HEAD',
-  OPTIONS = 'OPTIONS',
-}
 
 interface Request {
   endPoint: string;
-  method: HttpMethod;
+  method: Method;
   header?: Record<string, string>;
   data?: unknown;
   params?: Record<string, unknown>;
@@ -52,3 +42,5 @@ const sendRequest = async <T>({
     console.log(error);
   }
 };
+
+export default sendRequest;
