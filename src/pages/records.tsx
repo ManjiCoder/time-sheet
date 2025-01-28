@@ -184,7 +184,7 @@ export const columns: ColumnDef<Task>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue('duration')}</div>,
+    cell: ({ row }) => <div>{row.getValue('duration') ?? '-'}</div>,
   },
 
   {
@@ -445,7 +445,7 @@ export default function Records() {
       startTime: 'Start Time',
       endTime: 'End Time',
     });
-    console.log(csvData);
+    // console.log(csvData);
     downloadCSV(csvData);
   };
 

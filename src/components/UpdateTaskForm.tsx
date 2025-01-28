@@ -11,7 +11,7 @@ import { Task, updateTask } from '@/redux/features/task/taskReducer';
 import { useAppDispatch } from '@/redux/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { format } from 'date-fns';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import ErrorComponent from './ErrorComponent';
 import { Button } from './ui/button';
 import { Checkbox } from './ui/checkbox';
@@ -23,36 +23,36 @@ type UpdateFormProps = {
 };
 function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
   // console.table(currentTask);
+
   const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(task),
     defaultValues: {
       startTime: format(currentTask.startTime, 'yyyy-MM-dd'),
       endTime: format(currentTask.endTime || new Date(), 'yyyy-MM-dd'),
-      duration: currentTask.duration,
-      category: 'CSS Battle',
-      isActive: currentTask.isActive,
+      duration: currentTask.duration || '00:00',
+      category: currentTask.category,
+      isActive: !currentTask.isActive, // isActive mean runing not completed
     },
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = (data: any) => {
-    // console.log(data);
+    // console.table(data);
     try {
-      const payload = { ...currentTask, ...data };
+      const payload = { ...currentTask, ...data, isActive: !data.isActive };
       dispatch(updateTask({ key: currentTask.id, value: payload }));
-      console.log(payload);
+      // console.table(payload);
       closeModal();
     } catch (error) {
       console.log(error);
     }
-
-    // closeModal();
+    closeModal();
   };
-  console.log(errors);
 
   return (
     <form
@@ -66,9 +66,7 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
           type='date'
           placeholder='Start Time'
           {...register('startTime')}
-          className={
-            errors.startTime?.message && 'ring-offset-2 ring-2 ring-red-600'
-          }
+          className={errors.startTime?.message && 'inputError'}
         />
         <ErrorComponent msg={errors.startTime?.message} />
       </div>
@@ -79,26 +77,33 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
           type='date'
           placeholder='End Time'
           {...register('endTime')}
+          className={errors.endTime?.message && 'inputError'}
         />
         <ErrorComponent msg={errors.endTime?.message} />
       </div>
       <div className='formField'>
         <Label htmlFor='category'>Category</Label>
-        <Select {...register('category')}>
-          <SelectTrigger id='category' className=''>
-            <SelectValue placeholder='Category' />
-          </SelectTrigger>
-          <SelectContent>
-            {categories.map((category) => (
-              <SelectItem key={category.id} value={category.name}>
-                <span className='flex space-x-3 gap-3 pr-5'>
-                  {category.icon}
-                  {category.name}
-                </span>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Controller
+          name='category'
+          control={control}
+          render={({ field }) => (
+            <Select value={field.value} onValueChange={field.onChange}>
+              <SelectTrigger id='category' className=''>
+                <SelectValue placeholder='Category' />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.name}>
+                    <span className='flex space-x-3 gap-3 pr-5'>
+                      {category.icon}
+                      {category.name}
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
+        />
       </div>
 
       <div className='formField'>
@@ -108,12 +113,23 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
           id='duration'
           placeholder='Duration'
           {...register('duration')}
+          className={errors.duration?.message && 'inputError'}
         />
         <ErrorComponent msg={errors.duration?.message} />
       </div>
 
       <div className='formField flex-row col-span-2'>
-        <Checkbox id='isActive' {...register('isActive')} />
+        <Controller
+          name='isActive'
+          control={control}
+          render={({ field }) => (
+            <Checkbox
+              id='isActive'
+              checked={field.value}
+              onCheckedChange={(checked) => field.onChange(checked)}
+            />
+          )}
+        />
         <Label htmlFor='isActive' className='ml-3'>
           Mark as completed
         </Label>
@@ -122,6 +138,10 @@ function UpdateTaskForm({ closeModal, currentTask }: UpdateFormProps) {
 
       <Button type='submit' variant='default'>
         Submit
+      </Button>
+
+      <Button type='button' onClick={closeModal} variant='secondary'>
+        Cancel
       </Button>
     </form>
   );

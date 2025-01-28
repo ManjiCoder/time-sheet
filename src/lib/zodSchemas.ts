@@ -1,14 +1,12 @@
 import { z } from 'zod';
 export const task = z.object({
-//   isActive: z.string(),
-  startTime: z
-    .string({ required_error: 'Start Time is required' })
-    .date('Invalid Date')
-    .transform((value) => new Date(value).toISOString()),
-  endTime: z
-    .string({ required_error: 'End Time is required' })
-    .date('Invalid Date')
-    .transform((value) => new Date(value).toISOString()),
-  category: z.string().default('Misc'),
-  duration: z.string(),
+  startTime: z.string().nonempty('required*').date('Invalid Date'),
+  endTime: z.string().nonempty('required*').date('Invalid Date'),
+  duration: z
+    .string()
+    .nonempty('required*')
+    .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid Time')
+    .default('00:00'),
+  category: z.string().nonempty('required*').default('Misc'),
+  isActive: z.boolean().default(false),
 });

@@ -2,7 +2,7 @@
 export default function ErrorComponent({ msg }: any) {
   if (!msg) return null;
   return (
-    <div className='text-right w-full text-red-600 pt-1 text-sm font-bold transition-all'>
+    <div className='text-right w-full text-red-600 -mt-2 text-xs font-bold transition-all'>
       {msg}
     </div>
   );
